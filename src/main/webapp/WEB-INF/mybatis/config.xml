@@ -7,6 +7,6 @@
 		<setting name="mapUnderscoreToCamelCase" value="true"/>
 	</settings>
 	<typeAliases>
-		<package name="org.edupoll.shoong.model"/>
+		<package name="org.edupoll.market.model"/>
 	</typeAliases>
 </configuration>

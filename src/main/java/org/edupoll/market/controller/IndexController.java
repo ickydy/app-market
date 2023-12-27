@@ -10,6 +10,6 @@ public class IndexController {
 
 	@GetMapping
 	public String showIndex() {
-		return "index";
+		return "menu/index";
 	}
 }

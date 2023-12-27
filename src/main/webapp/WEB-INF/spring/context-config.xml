@@ -38,7 +38,7 @@
 			value="oracle.jdbc.driver.OracleDriver" />
 		<property name="url"
 			value="jdbc:oracle:thin:@13.125.229.23:1521:xe" />
-		<property name="username" value="shoong" />
+		<property name="username" value="openmarket" />
 		<property name="password" value="1111" />
 	</bean>
 

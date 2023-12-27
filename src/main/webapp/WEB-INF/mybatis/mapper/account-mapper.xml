@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.edupoll.market.repository.AccountDao">
+
+	<insert id="insert" parameterType="Account">
+		insert into accounts
+		(id, nickname, platform, access_token, profile_image_url)
+		values
+		(#{id}, #{nickname}, #{platform}, #{accessToken}, #{profileImageUrl})
+	</insert>
+	
+	<select id="findById" parameterType="String" resultType="Account">
+		select * from accounts where id = #{id}
+	</select>
+	
+	<update id="update">
+		update accounts
+		<set>
+			<if test="nickname != null">
+				nickname = #{nickname},
+			</if>
+			<if test="accessToken != null">
+				access_token = #{accessToken},
+			</if>
+			<if test="profileImageUrl != null">
+				profile_image_url = #{profileImageUrl},
+			</if>
+			<if test="address != null">
+				address = #{address},
+			</if>
+			<if test="latitude != null">
+				latitude = #{latitude},
+			</if>
+			<if test="longitude != null">
+				longitude = #{longitude}
+			</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+</mapper>
