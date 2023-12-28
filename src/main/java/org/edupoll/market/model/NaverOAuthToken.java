@@ -11,14 +11,11 @@ import lombok.ToString;
 @ToString
 public class NaverOAuthToken {
 	@SerializedName("access_token")
-	private String grant_type;
+	private String accessToken;
 	@SerializedName("token_type")
-	private String client_id;
+	private String tokenType;
 	@SerializedName("refresh_token")
-	private String client_secret;
+	private String refreshToken;
 	@SerializedName("expires_in")
 	private int expiresIn;
-	private String scope;
-	@SerializedName("refresh_token_expires_in")
-	private int refreshTokenExpiresIn;
 }

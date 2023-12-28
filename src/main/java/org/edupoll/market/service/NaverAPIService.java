@@ -8,12 +8,14 @@ import org.edupoll.market.model.NaverUserInfo;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import com.google.gson.Gson;
 
+@Service
 public class NaverAPIService {
 	public NaverOAuthToken getOAuthToken(String code, String state) {
 		String uri = "https://nid.naver.com/oauth2.0/token";
@@ -25,7 +27,7 @@ public class NaverAPIService {
 		body.add("code", code);
 		body.add("state", state);
 
-		RequestEntity<MultiValueMap<String, String>> request = new RequestEntity<>(body, HttpMethod.POST,
+		RequestEntity<MultiValueMap<String, String>> request = new RequestEntity<>(body, null, HttpMethod.POST,
 				URI.create(uri));
 
 		RestTemplate template = new RestTemplate();
@@ -37,7 +39,7 @@ public class NaverAPIService {
 
 		return oAuthToken;
 	}
-	
+
 	public NaverUserInfo getUserInfo(String accessToken) {
 		String uri = "https://openapi.naver.com/v1/nid/me";
 
@@ -53,7 +55,7 @@ public class NaverAPIService {
 
 		Gson gson = new Gson();
 		NaverUserInfo naverUserInfo = gson.fromJson(response.getBody(), NaverUserInfo.class);
-		
+
 		return naverUserInfo;
 	}
 }

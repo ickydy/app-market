@@ -9,7 +9,9 @@ import lombok.ToString;
 @Setter
 @Getter
 @ToString
-public class NaverUserInfo {
-	@SerializedName("response")
-	private NaverProfile profile;
+public class NaverProfile {
+	private String id;
+	private String name;
+	@SerializedName("profile_image")
+	private String profileImage;
 }
