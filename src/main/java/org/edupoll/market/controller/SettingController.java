@@ -1,5 +1,8 @@
 package org.edupoll.market.controller;
 
+import java.io.File;
+import java.io.IOException;
+
 import javax.servlet.http.HttpSession;
 
 import org.edupoll.market.model.Account;
@@ -11,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import lombok.RequiredArgsConstructor;
 
@@ -28,13 +32,23 @@ public class SettingController {
 		return "settings/form";
 	}
 
-	@PatchMapping("/settings/update/profile")
-	public String updateProfile(@ModelAttribute UpdateProfile updateProfile, HttpSession session, Model model) {
+	@PostMapping("/settings/update/profile")
+	public String updateProfile(@ModelAttribute UpdateProfile updateProfile, HttpSession session, Model model)
+			throws IllegalStateException, IOException {
 
-		Account origin = (Account) session.getAttribute("logonAccount");
-		Account updatedAccount = Account.builder().id(origin.getId()).nickname(updateProfile.getNickname()).build();
-		accountDao.update(updatedAccount);
-		session.setAttribute("logonAccount", accountDao.findById(origin.getId()));
+		Account logonAccount = (Account) session.getAttribute("logonAccount");
+		Account one = Account.builder().id(logonAccount.getId()).nickname(updateProfile.getNickname()).build();
+
+		if (!updateProfile.getProfileImage().isEmpty()) {
+			File dir = new File("d:\\upload\\profileImage\\", logonAccount.getId());
+			dir.mkdirs();
+			File target = new File(dir, "img.jpg");
+			updateProfile.getProfileImage().transferTo(target);
+			one.setProfileImageUrl("/upload/profileImage/" + logonAccount.getId() + "/img.jpg");
+		}
+		
+		accountDao.update(one);
+		session.setAttribute("logonAccount", accountDao.findById(logonAccount.getId()));
 
 		return "redirect:/settings";
 	}

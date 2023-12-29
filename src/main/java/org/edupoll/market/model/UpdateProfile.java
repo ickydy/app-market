@@ -1,5 +1,7 @@
 package org.edupoll.market.model;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -9,5 +11,5 @@ import lombok.ToString;
 @ToString
 public class UpdateProfile {
 	private String nickname;
-	private String profileImageUrl;
+	private MultipartFile profileImage;
 }

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <c:set var="contextPath" value="${pageContext.servletContext.contextPath }"/>
 <!DOCTYPE html>
 <html>
@@ -33,7 +34,7 @@
 						</c:when>
 						<c:otherwise>
 							<div class="d-flex gap-2 align-items-center">
-								<img src="${sessionScope.logonAccount.profileImageUrl }" width="32" class="rounded-circle"/>
+								<img src="${fn:startsWith(sessionScope.logonAccount.profileImageUrl, '/upload') ? contextPath:'' }${sessionScope.logonAccount.profileImageUrl }" width="32" class="rounded-circle"/>
 								<span>${sessionScope.logonAccount.nickname }</span>
 								<c:choose>
 									<c:when test="${sessionScope.logonAccount.platform eq 'kakao' }">
@@ -78,6 +79,9 @@
 							<ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
 								<li class="nav-item">
 									<a class="nav-link active" aria-current="page" href="${contextPath }/settings">내 정보</a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link active" aria-current="page" href="${contextPath }/product/register">내 물건 팔기</a>
 								</li>
 								<li class="nav-item">
 									<a class="nav-link active" aria-current="page" href="${contextPath }/signout">로그아웃</a>

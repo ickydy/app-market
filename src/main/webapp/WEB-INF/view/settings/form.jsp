@@ -1,26 +1,27 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ include file="/WEB-INF/view/component/header.jspf" %>
 <div class="container mt-3">
 	<h4>내 정보</h4>
 	<div class="row gx-3">
 		<div class="col-md-4 p-2">
-			<div class="h6 my-2">
-				<i class="bi bi-person-bounding-box"></i> 프로필 이미지
-			</div>
-			<div class="my-2">
-				<img src="${sessionScope.logonAccount.profileImageUrl }" width="200" height="200" class="rounded-circle"
-					style="cursor:pointer;"
-					onclick="document.querySelector('#profileImage').click()"
-					id="profileImageView"/>
-			</div>
-			<div style="display:none;">
-				<input type="file" class="form-control" id="profileImage" accept="image/*"/>
-			</div>
-			<div class="h6 my-2">
-				<i class="bi bi-person-vcard"></i> 닉네임
-			</div>
-			<form action="${contextPath }/settings/update/profile" method="post">
-				<input type="hidden" name="_method" value="patch"/>
+			<form action="${contextPath }/settings/update/profile" method="post" enctype="multipart/form-data">
+				<div class="h6 my-2">
+					<i class="bi bi-person-bounding-box"></i> 프로필 이미지
+				</div>
+				<div class="my-2">
+					<img src="${fn:startsWith(sessionScope.logonAccount.profileImageUrl, '/upload') ? contextPath:'' }${sessionScope.logonAccount.profileImageUrl }"
+						width="200" height="200" class="rounded-circle"
+						style="cursor:pointer;"
+						onclick="document.querySelector('#profileImage').click()"
+						id="profileImageView"/>
+				</div>
+				<div style="display:none;">
+					<input type="file" class="form-control" id="profileImage" name="profileImage" accept="image/*"/>
+				</div>
+				<div class="h6 my-2">
+					<i class="bi bi-person-vcard"></i> 닉네임
+				</div>
 				<div class="my-2">
 					<div>
 						<input type="text" class="form-control" id="nickname" name="nickname" value="${sessionScope.logonAccount.nickname }"/>

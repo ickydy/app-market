@@ -12,6 +12,7 @@
 	<context:component-scan base-package="org.edupoll.market" />
 	<mvc:annotation-driven />
 	<mvc:default-servlet-handler/>
+	<mvc:resources mapping="/upload/**" location="file:d:\\upload\\" cache-period="0"/>
 	
 	<!-- 인터셉터
 	<mvc:interceptors>
@@ -32,6 +33,11 @@
 		<property name="prefix" value="/WEB-INF/view/" />
 		<property name="suffix" value=".jsp" />
 	</bean>
+	
+	<!-- multipart request handle config -->
+	<bean class="org.springframework.web.multipart.commons.CommonsMultipartResolver" id="multipartResolver">
+		<property name="uploadTempDir" value="file:d:\\temp"/>
+	</bean>
 
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName"
@@ -40,11 +46,6 @@
 			value="jdbc:oracle:thin:@13.125.229.23:1521:xe" />
 		<property name="username" value="openmarket" />
 		<property name="password" value="1111" />
-	</bean>
-
-	<!-- jdbcTemplate configuration -->
-	<bean class="org.springframework.jdbc.core.JdbcTemplate">
-		<property name="dataSource" ref="dataSource" />
 	</bean>
 
 	<!-- mybatis configuration -->
@@ -63,6 +64,5 @@
 	</bean>
 	
 	<mybatis-spring:scan base-package="org.edupoll.market.repository"/>
-
-
+	
 </beans>

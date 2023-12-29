@@ -47,10 +47,8 @@ public class SignController {
 	public String acceptKakaoCode(@RequestParam String code, HttpSession session) {
 
 		KakaoOAuthToken oAuthToken = kakaoAPIService.getOAuthToken(code);
-		System.out.println(oAuthToken.getAccessToken());
 
 		KakaoUserInfo kakaoUserInfo = kakaoAPIService.getUserInfo(oAuthToken.getAccessToken());
-		System.out.println(kakaoUserInfo);
 
 		String id = "k" + kakaoUserInfo.getId();
 		Account account = accountDao.findById(id);
@@ -78,10 +76,8 @@ public class SignController {
 	public String acceptNaverCode(@RequestParam String code, @RequestParam String state, HttpSession session) {
 
 		NaverOAuthToken oAuthToken = naverAPIService.getOAuthToken(code, state);
-		System.out.println(oAuthToken);
 
 		NaverUserInfo naverUserInfo = naverAPIService.getUserInfo(oAuthToken.getAccessToken());
-		System.out.println(naverUserInfo);
 
 		String id = "n" + naverUserInfo.getProfile().getId();
 		Account account = accountDao.findById(id);
