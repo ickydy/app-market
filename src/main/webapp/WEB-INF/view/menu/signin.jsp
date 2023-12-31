@@ -15,7 +15,7 @@
 		  	</a>
 		  </li>
 		  <li class="list-group-item border border-0">
-			  <a href="https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=lU7GLew0nobFRhFpafKh&state=state&redirect_uri=http://192.168.4.123:8080${contextPath }/callback/naver">
+			  <a href="https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=lU7GLew0nobFRhFpafKh&state=state&redirect_uri=${url }${contextPath }/callback/naver">
 			  	<button type="button" style="width:300px; height:45px; border:none; border-radius:7px; background-color:#03C75A; color:#fff;">
 			  		<div style="display:flex; align-items:center;">
 			  			<div>

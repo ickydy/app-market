@@ -19,6 +19,8 @@ public class KakaoAPIService {
 
 	public KakaoOAuthToken getOAuthToken(String code) {
 		String uri = "https://kauth.kakao.com/oauth/token";
+//		String url = "http://192.168.4.123:8080";
+		String url = "http://211.194.30.210:8080";
 
 		MultiValueMap<String, String> headers = new LinkedMultiValueMap<String, String>();
 		headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
@@ -26,7 +28,7 @@ public class KakaoAPIService {
 		MultiValueMap<String, String> body = new LinkedMultiValueMap<String, String>();
 		body.add("grant_type", "authorization_code");
 		body.add("client_id", "dc31fc273290226847f0433870262172");
-		body.add("redirect_uri", "http://192.168.4.123:8080/callback/kakao");
+		body.add("redirect_uri", url + "/callback/kakao");
 		body.add("code", code);
 
 		RequestEntity<MultiValueMap<String, String>> request = new RequestEntity<>(body, headers, HttpMethod.POST,

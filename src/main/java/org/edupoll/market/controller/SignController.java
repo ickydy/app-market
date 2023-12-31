@@ -30,14 +30,18 @@ public class SignController {
 	@GetMapping("/signin")
 	public String showSignin(Model model) {
 
+//		String url = "http://192.168.4.123:8080";
+		String url = "http://211.194.30.210:8080";
+
 		String kakaoLoginLink = "https://kauth.kakao.com/oauth/authorize?" + "client_id=${client_id}&response_type=code"
 				+ "&redirect_uri=${redirect_uri}";
 
 		kakaoLoginLink = kakaoLoginLink.replace("${client_id}", "dc31fc273290226847f0433870262172");
-		kakaoLoginLink = kakaoLoginLink.replace("${redirect_uri}",
-				"http://192.168.4.123:8080${contextPath}/callback/kakao");
+		kakaoLoginLink = kakaoLoginLink.replace("${redirect_uri}", "${url}${contextPath}/callback/kakao");
+		kakaoLoginLink = kakaoLoginLink.replace("${url}", url);
 		kakaoLoginLink = kakaoLoginLink.replace("${contextPath}", application.getContextPath());
 
+		model.addAttribute("url", url);
 		model.addAttribute("kakaoLoginLink", kakaoLoginLink);
 
 		return "menu/signin";

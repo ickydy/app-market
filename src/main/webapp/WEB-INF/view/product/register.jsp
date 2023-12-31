@@ -7,7 +7,8 @@
 			<div class="my-3">
 				<input type="file" id="image" name="image" style="display:none;" multiple accept="image/**"/>
 				<div class="d-flex align-items-start">
-					<button type="button" class="btn btn-dark" style="--bs-btn-padding-y:2.0rem; --bs-btn-padding-x:2.0rem; --bs-btn-font-size:30px;" onclick="document.querySelector('#image').click();">
+					<button type="button" class="btn btn-dark" style="--bs-btn-padding-y:2.0rem; --bs-btn-padding-x:2.0rem; --bs-btn-font-size:30px;"
+						onclick="document.querySelector('#image').click();">
 						<div style="width:40px; height:40px;">
 							<i class="bi bi-camera"></i>
 						</div>
