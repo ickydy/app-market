@@ -38,7 +38,7 @@
 								<span>${sessionScope.logonAccount.nickname }</span>
 								<c:choose>
 									<c:when test="${sessionScope.logonAccount.platform eq 'kakao' }">
-										<span class="badge" style="background-color:#FEE500; color:black;">KAKAO</span>
+										<span class="badge" style="background-color:#FEE500; color:#fff;">KAKAO</span>
 									</c:when>
 									<c:otherwise>
 										<span class="badge" style="background-color:#03C75A; color:#fff;">NAVER</span>
