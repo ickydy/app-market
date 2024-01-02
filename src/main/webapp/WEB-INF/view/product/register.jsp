@@ -3,9 +3,9 @@
 <div class="container mt-3">
 	<h4>내 물건 팔기</h4>
 	<div class="border-top">
-		<form action="${contextPath }/product/register" method="post" enctype="multipart/form-data">
+		<form action="${contextPath }/product/register" method="post" enctype="multipart/form-data" onsubmit="syncFileState();">
 			<div class="my-3">
-				<input type="file" id="image" name="image" style="display:none;" multiple accept="image/**"/>
+				<input type="file" id="image" name="images" style="display:none;" multiple accept="image/**"/>
 				<div class="d-flex align-items-start">
 					<button type="button" class="btn btn-dark" style="--bs-btn-padding-y:2.0rem; --bs-btn-padding-x:2.0rem; --bs-btn-font-size:30px;"
 						onclick="document.querySelector('#image').click();">
@@ -13,7 +13,7 @@
 							<i class="bi bi-camera"></i>
 						</div>
 					</button>
-					<div class="d-flex" style="overflow-x:scroll;" id="imageView">
+					<div class="d-flex" style="overflow-x:auto;" id="imageView">
 						<!-- javascript로 들어옴
 							<div class="mx-1 rounded position-relative" style="overflow:hidden; min-width:105.8px;">
 								<img alt="image" src="/resource/icon/kakao_login.png" width="105.8" height="105.8" class="object-fit-cover">
@@ -25,26 +25,26 @@
 			</div>
 			<div class="my-3">
 				<h6 style="font-weight:bold;">제목</h6>
-				<input type="text" class="form-control" id="title"/>
+				<input type="text" class="form-control" id="title" name="title"/>
 			</div>
 			<div class="my-3">
 				<h6 style="font-weight:bold;">거래방식</h6>
 				<div>
-					<input type="radio" class="btn-check" name="options-base" id="sell" autocomplete="off" checked>
+					<input type="radio" class="btn-check" name="type" value="sell" id="sell" autocomplete="off" checked>
 					<label class="btn btn-outline-dark" for="sell">판매하기</label>
 	
-					<input type="radio" class="btn-check" name="options-base" id="share" autocomplete="off">
-					<label class="btn btn-outline-dark" for="share">나눔하기</label>
+					<input type="radio" class="btn-check" name="type" value="free" id="free" autocomplete="off">
+					<label class="btn btn-outline-dark" for="free">나눔하기</label>
 				</div>
 				<div class="input-group my-2">
 					<span class="input-group-text">￦</span>
-					<input type="number" id="price" class="form-control" step="1000" min="1000" placeholder="가격을 입력해주세요 (천원단위)"/>
+					<input type="number" id="price" name="price" class="form-control" step="1000" min="1000" placeholder="가격을 입력해주세요 (천원단위)"/>
 				</div>
 			</div>
 			<div class="my-3">
 				<h6 style="font-weight:bold;">자세한 설명</h6>
 				<div>
-					<textarea class="form-control" id="explain" rows="6" style="resize:none;"
+					<textarea class="form-control" id="description" name="description" rows="6" style="resize:none;"
 						placeholder="신뢰할 수 있는 거래를 위해 자세히 적어주세요"></textarea>
 				</div>
 				<div class="position-relative bottom-0 end-0">
@@ -60,17 +60,25 @@
 </div>
 <script>
 
+	const fileState = [];
+
 	// 파일 선택시 이미지 미리보기
 	document.querySelector("#image").onchange = function(e) {
 		
-		// 이전에 선택되어있던 것들 삭제
-		const imageView = document.querySelector("#imageView");
-		while (imageView.firstChild) {
-			imageView.removeChild(imageView.firstChild);
-		}
+		/*
+			// 이전에 선택되어있던 것들 삭제
+			const imageView = document.querySelector("#imageView");
+			while (imageView.firstChild) {
+				imageView.removeChild(imageView.firstChild);
+			}
+			
+		*/
+			// 새로 선택된 이미지 세팅
+			const files = [...document.querySelector("#image").files]
 		
-		// 새로 선택된 이미지 세팅
-		const files = [...document.querySelector("#image").files]
+		for (let f of files) {
+			fileState.push(f);
+		}
 		
 		files.forEach(function(file) {
 			const fileReader = new FileReader();
@@ -105,12 +113,17 @@
 		});
 	}
 	
-	// 나눔하기 선택시 가격 0원 고정
-	document.querySelector("#share").onclick = function(e) {
+	function syncFileState() {
+		document.querySelector("#image").files = fileState;
+	}
+	
+	// 나눔하기 선택시 가격 설정 불가
+	document.querySelector("#free").onclick = function(e) {
 		
 		const price = document.querySelector("#price");
-		price.value = 0;
-		price.readOnly = true;
+		price.value = "";
+		price.placeholder = "나눔하기";
+		price.disabled = true;
 		
 	}
 	
@@ -119,13 +132,15 @@
 		
 		const price = document.querySelector("#price");
 		price.value = "";
-		price.readOnly = false;
+		price.placeholder = "가격을 입력해주세요 (천원단위)";
+		price.disabled = false;
 		
 	}
 	
-	document.querySelector("#explain").onkeyup = function(e) {
+	// 글자수 제한
+	document.querySelector("#description").onkeyup = function(e) {
 		
-		const explain = document.querySelector("#explain");
+		const description = document.querySelector("#description");
 		const text = e.target.value;
 		
 		const length = document.querySelector("#length");
