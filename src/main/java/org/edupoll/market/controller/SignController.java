@@ -30,8 +30,8 @@ public class SignController {
 	@GetMapping("/signin")
 	public String showSignin(Model model) {
 
-		String url = "http://192.168.4.123:8080";
-//		String url = "http://211.194.30.210:8080";
+//		String url = "http://192.168.4.123:8080";
+		String url = "http://211.194.30.210:8080";
 
 		String kakaoLoginLink = "https://kauth.kakao.com/oauth/authorize?" + "client_id=${client_id}&response_type=code"
 				+ "&redirect_uri=${redirect_uri}";

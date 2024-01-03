@@ -19,8 +19,8 @@ public class KakaoAPIService {
 
 	public KakaoOAuthToken getOAuthToken(String code) {
 		String uri = "https://kauth.kakao.com/oauth/token";
-		String url = "http://192.168.4.123:8080";
-//		String url = "http://211.194.30.210:8080";
+//		String url = "http://192.168.4.123:8080";
+		String url = "http://211.194.30.210:8080";
 
 		MultiValueMap<String, String> headers = new LinkedMultiValueMap<String, String>();
 		headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");

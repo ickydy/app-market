@@ -50,7 +50,7 @@
 										</div>
 										<small class="text-body-secondary">
 											<c:set var="key" value="${product.id }"/>
-											${totalPicks[key] }
+											<i class="bi bi-heart-fill"></i> ${totalPicks[key] }
 										</small>
 									</div>
 								</div>

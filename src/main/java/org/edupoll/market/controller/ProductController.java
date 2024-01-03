@@ -175,6 +175,7 @@ public class ProductController {
 			}
 		}
 		model.addAttribute("products", products);
+		model.addAttribute("totalPicks", totalPicks);
 		return "product/mypick";
 	}
 }

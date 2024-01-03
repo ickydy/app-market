@@ -1,0 +1,52 @@
+# 파일 업로드 
+
+===<Spring 설정>===
+<bean class="org.springframework.web.multipart.commons.CommonsMultipartResolver" id="multipartResolver">
+	<property name="uploadTempDir" value="file:d:\\temp"/>
+</bean>
+	ㄴ 업로드된 파일은 전부 임시 저장되고 일정시간 후 사라지기 때문에 임시저장시킬 경로 설정
+	
+<mvc:resources mapping="/upload/profileImage/**" location="file:d:\\upload\\profileImage\\" cache-period="0"/>
+<mvc:resources mapping="/upload/productImage/**" location="file:d:\\upload\\productImage\\"/>
+	ㄴ 영구정된 파일이 있는 경로 설정 / cache 설정을 통해 같은 이름의 파일을 불러왔을때 항상 새로고침하도록 함
+
+===<뷰 페이지>===
+<form method="post" enctype="multipart/form-date"/>
+	ㄴ "GET" 과 "POST" 만 사용 가능 / 다중선택시 "multiple" 추가
+<input type="file" accept="image/*"/>
+	ㄴ "accept" 설정시 선택할 수 있는 파일형식에 제약을 줄 수 있음
+-> 일반적으로 파일 선택기가 못생겨서 "input" 을 "display:none" 해두고
+	다른 이모지(ex:카메라이모지) 등에 'onclick()' 함수를 걸어두고 javascript로 해결함
+
+===<컨트롤러>===
+넘겨받은 데이터 타입 = MultipartFile 혹은 MultipartFile[]
+	ㄴ 임시저장된 파일을 영구저장 시키기 위해 영구저장 할 경로 설정 후 저장하는 과정
+	
+	File dir = new File("저장경로", "파일명"); // 파일 경로 설정(해당 파일이 저장될 폴더를 생성한다고 보면 될듯)
+	dir.mkdirs(); // 경로 생성
+	File target = new File(dir, "파일명"); // 실제 저장될 이미지의 파일명과 경로 설정
+	"MultipartFile객체".transferTo(target); // "temp" 폴더에 있던 파일 이동 완료
+
+===<이미지 미리보기 script>===
+"input"에 'onchange' 메소드를 통해 이미지를 띄울 "div"에 추가
+
+	const files = [...document.querySelector().files];
+	files.forEach(function(file) {
+		const fileReader = new FileReader(); // 파일리더 객체 생성
+		
+		fileReader.readAsDataURL(file); // 파일을 특정 문자열로 반환
+		fileReader.onload = function(e) { // 반환 성공시 onload event 발생, 이때 실행시킬 함수 생성
+			
+			const div = document.createElement("div"); // 이미지 넣을 div 생성
+			div. ....
+			
+			const img = document.createElement("img"); // 이미지 생성
+			img.src = e.target.result; // readAsDataURL()을 통해 반환된 문자열
+			img. ...
+			
+			div.appendChild(img); // div에 img 넣기
+			
+			document.querySelctor().appendChild(div); // 만들어진 div를 기존 html에 넣기
+		}
+	});
+</script>
