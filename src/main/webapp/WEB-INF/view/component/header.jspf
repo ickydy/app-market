@@ -55,7 +55,7 @@
 						<c:when test="${empty sessionScope.logonAccount }">
 							<ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
 								<li class="nav-item">
-									<a class="nav-link active" aria-current="page" href="${contextPath }/signin">로그인</a>
+									<a class="nav-link active" aria-current="page" href="${contextPath }/signin"><i class="bi bi-box-arrow-in-right"></i> 로그인</a>
 								</li>
 								<li class="nav-item">
 									<a class="nav-link" href="#">Link</a>
@@ -78,13 +78,16 @@
 						<c:otherwise>
 							<ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
 								<li class="nav-item">
-									<a class="nav-link active" aria-current="page" href="${contextPath }/settings">내 정보</a>
+									<a class="nav-link active" aria-current="page" href="${contextPath }/settings"><i class="bi bi-person-gear"></i> 내 정보</a>
 								</li>
 								<li class="nav-item">
-									<a class="nav-link active" aria-current="page" href="${contextPath }/product/register">내 물건 팔기</a>
+									<a class="nav-link active" aria-current="page" href="${contextPath }/product/register"><i class="bi bi-pen"></i> 내 물건 팔기</a>
 								</li>
 								<li class="nav-item">
-									<a class="nav-link active" aria-current="page" href="${contextPath }/signout">로그아웃</a>
+									<a class="nav-link active" aria-current="page" href="${contextPath }/product/mypick"><i class="bi bi-bag-heart"></i> 관심 목록</a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link active" aria-current="page" href="${contextPath }/signout"><i class="bi bi-box-arrow-right"></i> 로그아웃</a>
 								</li>
 					        </ul>
 				      	</c:otherwise>

@@ -12,7 +12,8 @@
 	<context:component-scan base-package="org.edupoll.market" />
 	<mvc:annotation-driven />
 	<mvc:default-servlet-handler/>
-	<mvc:resources mapping="/upload/**" location="file:d:\\upload\\" cache-period="0"/>
+	<mvc:resources mapping="/upload/profileImage/**" location="file:d:\\upload\\profileImage\\" cache-period="0"/>
+	<mvc:resources mapping="/upload/productImage/**" location="file:d:\\upload\\productImage\\"/>
 	
 	<!-- 인터셉터
 	<mvc:interceptors>

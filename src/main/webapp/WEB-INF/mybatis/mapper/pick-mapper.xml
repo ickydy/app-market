@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.edupoll.market.repository.PickDao">
+
+	<insert id="save">
+		insert into picks values(picks_seq.nextval, #{ownerAccountId}, #{targetProductId})
+	</insert>
+	
+	<delete id="deleteById">
+		delete from picks where id = #{id}
+	</delete>
+	
+	<delete id="deleteByOwnderAndTarget">
+		delete from picks
+			where owner_account_id = #{ownerAccountId}
+			and
+			target_product_id = #{targetProductId}
+	</delete>
+	
+	<select id="countByTarget" resultType="int">
+		select count(*) from picks where target_product_id = #{targetProductId}
+	</select>
+	
+	<select id="countByOwnerAndTarget" resultType="int">
+		select count(*) from picks
+			where owner_account_id = #{ownerAccountId}
+			and
+			target_product_id = #{targetProductId}
+	</select>
+	
+	<select id="findByOwner" resultType="pick">
+		select * from picks where owner_account_id = #{ownerAccountId}
+	</select>
+	
+</mapper>

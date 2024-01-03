@@ -54,17 +54,17 @@
 				</div>
 			</div>
 			<div class="d-flex text gap-2" style="font-size:small;">
-				<span>관심 0</span> <span>조회 ${product.viewCnt }</span>
+				<p class="mb-0">관심 <span id="totalpick">${totalPick }</span> 조회 <span>${product.viewCnt }</span></p>
 			</div>
 			<!-- 가격 및 찜하기버튼 -->
 			<div class="d-flex my-2">
-				<div class="p-2">
+				<div class="p-2 border-end">
 					<c:choose>
-						<c:when test="">
-							<i class="bi bi-heart"></i>
+						<c:when test="${picked }">
+							<i class="bi bi-heart-fill" id="pick" style="cursor:pointer;"></i>
 						</c:when>
 						<c:otherwise>
-							<i class="bi bi-heart-fill"></i>
+							<i class="bi bi-heart" id="pick" style="cursor:pointer;"></i>
 						</c:otherwise>
 					</c:choose>
 				</div>
@@ -74,7 +74,7 @@
 							<fmt:formatNumber pattern="#,###" value="${product.price }"/>원
 						</c:when>
 						<c:otherwise>
-							나눔<i class="bi bi-emoji-laughing"></i>
+							나눔 <i class="bi bi-emoji-laughing"></i>
 						</c:otherwise>
 					</c:choose>
 				</div>
@@ -82,13 +82,61 @@
 					<button class="btn btn-sm btn-dark">문의하기</button>
 				</div>
 			</div>
+			<!-- 
+			<form action="${contextPath }/product/pick" method="post" id="pickform" class="d-none">
+				<input type="hidden" name="_method" value="" id="pickform_method"/>
+				<input type="hidden" name="targetProductId" value="${product.id }"/>
+			</form>
+			 -->
 		</div>
 	</div>
 </div>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=145c3b70e061a8512d5744ee57476422&libraries=services"></script>
+<c:choose>
+	<c:when test="${empty sessionScope.logonAccount }">
+		<script>
+			document.querySelector("#pick").onclick = function(evt) {
+				if (window.alert("로그인이 필요합니다.")) {
+					location.href = "${contextPath}/signin";
+				}
+			}
+		</script>
+	</c:when>
+	<c:otherwise>
+		<script>
+			document.querySelector("#pick").onclick = function(evt) {
+				const xhr = new XMLHttpRequest();
+				if (this.className == "bi bi-heart-fill") {
+					xhr.open("delete", "${contextPath}/product/pickAjax?targetProductId=${product.id}", true);
+					xhr.send();
+				} else {
+					xhr.open("post", "${contextPath}/product/pickAjax", true);
+					xhr.setRequestHeader("content-type", "application/x-www-form-urlencoded");
+					xhr.send("targetProductId=${product.id}");
+				}
+				
+				xhr.onreadystatechange = function () {
+					if (xhr.readyState == 4) {
+						if (xhr.responseText == 'success') {
+							if (document.querySelector("#pick").className == 'bi bi-heart-fill' ) {
+								document.querySelector("#pick").className = 'bi bi-heart';
+								console.log(document.querySelector("#totalpick").textNode);
+							} else {
+								document.querySelector("#pick").className = 'bi bi-heart-fill';
+								console.log(document.querySelector("#totalpick").textNode);
+							}
+						}
+					}
+				}
+				
+			}
+		</script>
+	</c:otherwise>
+</c:choose>
 <script>
-	var staticMapContainer  = document.getElementById('staticMap'); // 이미지 지도를 표시할 div
-	var   staticMapOption = { 
+	// 지도
+	var staticMapContainer = document.getElementById('staticMap'); // 이미지 지도를 표시할 div
+	var staticMapOption = { 
 	        center: new kakao.maps.LatLng(${product.account.latitude}, ${product.account.longitude}), // 이미지 지도의 중심좌표
 	        level: 3, // 이미지 지도의 확대 레벨
 	        marker: { // 이미지 지도에 표시할 마커

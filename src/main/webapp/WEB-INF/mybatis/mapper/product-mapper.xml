@@ -52,4 +52,15 @@
 		    where p.id = #{id}
 	</select>
 	
+	<select id="findAllOrderByIdDesc" resultMap="productWithDetail">
+		select * from (
+			select p.*, a.nickname, a.platform, a.access_token, a.profile_image_url, a.address, a.latitude, a.longitude, 
+					pi.id as image_id, pi.url, pi.path from products p
+		    left join accounts a
+		    	on p.account_id = a.id 
+		    left join product_images pi 
+		    	on p.id = pi.product_id
+		) order by id desc
+	</select>
+	
 </mapper>
