@@ -3,6 +3,7 @@ package org.edupoll.market.controller;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,6 +28,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.google.gson.Gson;
 
 import lombok.RequiredArgsConstructor;
 
@@ -97,19 +100,19 @@ public class ProductController {
 		}
 		return "redirect:/product/" + targetProductId;
 	}
-	
+
 	@DeleteMapping("/pick")
 	public String proceedRemovePick(@RequestParam int targetProductId, @SessionAttribute Account logonAccount) {
 		Pick one = Pick.builder() //
 				.targetProductId(targetProductId) //
 				.ownerAccountId(logonAccount.getId()) //
 				.build();
-		
+
 		pickDao.deleteByOwnderAndTarget(one);
-		
+
 		return "redirect:/product/" + targetProductId;
 	}
-	
+
 	@PostMapping("/pickAjax")
 	@ResponseBody
 	public String proceedAjaxAddPick(@RequestParam int targetProductId, @SessionAttribute Account logonAccount) {
@@ -121,9 +124,17 @@ public class ProductController {
 		if (count == 0) {
 			pickDao.save(one);
 		}
-		return "success";
+
+		int updatedTotalPick = pickDao.countByTarget(targetProductId);
+
+		Map<String, Object> response = new HashMap<>();
+		response.put("result", "success");
+		response.put("updatedTotalPick", updatedTotalPick);
+		Gson gson = new Gson();
+
+		return gson.toJson(response);
 	}
-	
+
 	@DeleteMapping("/pickAjax")
 	@ResponseBody
 	public String proceedAjaxRemovePick(@RequestParam int targetProductId, @SessionAttribute Account logonAccount) {
@@ -131,10 +142,16 @@ public class ProductController {
 				.targetProductId(targetProductId) //
 				.ownerAccountId(logonAccount.getId()) //
 				.build();
-		
 		pickDao.deleteByOwnderAndTarget(one);
 		
-		return "success";
+		int updatedTotalPick = pickDao.countByTarget(targetProductId);
+		
+		Map<String, Object> response = new HashMap<>();
+		response.put("result", "success");
+		response.put("updatedTotalPick", updatedTotalPick);
+		Gson gson = new Gson();
+
+		return gson.toJson(response);
 	}
 
 	@GetMapping("/{productId}")
@@ -159,15 +176,14 @@ public class ProductController {
 
 		return "product/view";
 	}
-	
+
 	@GetMapping("/mypick")
 	public String showMyPick(@SessionAttribute Account logonAccount, Model model) {
 		List<Pick> picks = pickDao.findByOwner(logonAccount.getId());
 		List<Product> products = new ArrayList<>();
 		Map<Integer, Integer> totalPicks = new LinkedHashMap<Integer, Integer>();
-		System.out.println(picks.size());
 		if (picks != null) {
-			for(Pick pick : picks) {
+			for (Pick pick : picks) {
 				Product product = productDao.findById(pick.getTargetProductId());
 				products.add(product);
 				int totalPick = pickDao.countByTarget(product.getId());

@@ -87,6 +87,9 @@
 									<a class="nav-link active" aria-current="page" href="${contextPath }/product/mypick"><i class="bi bi-bag-heart"></i> 관심 목록</a>
 								</li>
 								<li class="nav-item">
+									<a class="nav-link active" aria-current="page" href="${contextPath }/chat/list"><i class="bi bi-chat-fill"></i> 채팅 목록</a>
+								</li>
+								<li class="nav-item">
 									<a class="nav-link active" aria-current="page" href="${contextPath }/signout"><i class="bi bi-box-arrow-right"></i> 로그아웃</a>
 								</li>
 					        </ul>

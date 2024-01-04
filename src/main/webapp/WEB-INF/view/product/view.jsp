@@ -54,7 +54,7 @@
 				</div>
 			</div>
 			<div class="d-flex text gap-2" style="font-size:small;">
-				<p class="mb-0">관심 <span id="totalpick">${totalPick }</span> 조회 <span>${product.viewCnt }</span></p>
+				<span id="totalpick">관심 ${totalPick }</span> <span>조회 ${product.viewCnt }</span>
 			</div>
 			<!-- 가격 및 찜하기버튼 -->
 			<div class="d-flex my-2">
@@ -79,15 +79,12 @@
 					</c:choose>
 				</div>
 				<div class="p-2">
-					<button class="btn btn-sm btn-dark">문의하기</button>
+					<button class="btn btn-sm btn-dark" onclick="document.querySelector('#roomform').submit();">문의하기</button>
 				</div>
 			</div>
-			<!-- 
-			<form action="${contextPath }/product/pick" method="post" id="pickform" class="d-none">
-				<input type="hidden" name="_method" value="" id="pickform_method"/>
-				<input type="hidden" name="targetProductId" value="${product.id }"/>
+			<form action="${contextPath }/chat/room" method="get" id="roomform" class="d-none">
+				<input type="hidden" name="productId" value="${product.id }"/>
 			</form>
-			 -->
 		</div>
 	</div>
 </div>
@@ -117,14 +114,15 @@
 				
 				xhr.onreadystatechange = function () {
 					if (xhr.readyState == 4) {
-						if (xhr.responseText == 'success') {
+						var response = JSON.parse(xhr.responseText);
+						if (response.result == 'success') {
 							if (document.querySelector("#pick").className == 'bi bi-heart-fill' ) {
 								document.querySelector("#pick").className = 'bi bi-heart';
-								console.log(document.querySelector("#totalpick").textNode);
 							} else {
 								document.querySelector("#pick").className = 'bi bi-heart-fill';
-								console.log(document.querySelector("#totalpick").textNode);
 							}
+							
+							document.querySelector("#totalpick").innerHTML = "관심 " + response.updatedTotalPick;
 						}
 					}
 				}

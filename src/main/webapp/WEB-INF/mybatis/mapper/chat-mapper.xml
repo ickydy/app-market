@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.edupoll.market.repository.ChatDao">
+
+	<!-- 신규 채팅방 만들기 -->
+	<insert id="createRoom">
+		insert into chat_rooms values (#{id}, #{productId}, #{sellerId}, #{buyerId}, sysdate)
+	</insert>
+	
+	<!-- 기존 채팅방 존재여부 확인 -->
+	<select id="findRoomByProductIdAndBuyerId" resultType="chatRoom">
+		select * from chat_rooms where product_id = #{productId} and buyer_id = #{buyerId}
+	</select>
+	
+	<!-- 신규 메세지 등록 -->
+	<insert id="saveMessage">
+		insert into chat_messages values (chat_messages_seq.nextval, #{chatRoomId}, #{talkerId}, #{content}, sysdate, null)
+	</insert>
+	
+	<!-- 특정 채팅방 정보 찾기 -->
+	<select id="findRoomByRoomId" resultType="chatRoom">
+		select * from chat_rooms where id = #{id}
+	</select>
+	
+	<!-- 참여중인 채팅방 불러오기 -->
+	<select id="findRoomByAccountId" resultType="chatRoom">
+		select * from chat_rooms where seller_id = #{logonAccountId} or buyer_id = #{logonAccountId} 
+	</select>
+	
+	<!-- 채팅방의 모든 채팅 가져오기 -->
+	<select id="findMessagesByRoomId" resultType="chatMessage">
+		select * from chat_messages where chat_room_id = #{chatRoomId} order by sent_at desc
+	</select>
+	
+	<!-- 안읽은 채팅 개수 확인 -->
+	<select id="countUncheckedMessages" resultType="int">
+		select count(*) from chat_messages
+			where
+			chat_room_id = #{chatRoomId}
+			and
+			talker_id != #{logonAccountId}
+			and
+			checked_at is null
+	</select>
+	
+	<!-- 안읽은 채팅 일괄 업데이트 -->
+	<update id="updateCheckedAt">
+		update chat_messages
+			set
+			checked_at = sysdate
+			where
+			chat_room_id = #{chatRoomId}
+			and
+			talker_id != #{logonAccountId}
+			and
+			checked_at is null
+	</update>
+	
+</mapper>

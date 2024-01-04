@@ -15,14 +15,16 @@
 	<mvc:resources mapping="/upload/profileImage/**" location="file:d:\\upload\\profileImage\\" cache-period="0"/>
 	<mvc:resources mapping="/upload/productImage/**" location="file:d:\\upload\\productImage\\"/>
 	
-	<!-- 인터셉터
+	<bean id="logonCheckInterceptor" class="org.edupoll.market.interceptor.LogonCheckInterceptor"/>
 	<mvc:interceptors>
 		<mvc:interceptor>
-			<mvc:mapping path="/**"/>
-			<ref bean="keepLoginInterceptor"/>
+			<mvc:mapping path="/chat/**"/>
+			<mvc:mapping path="/product/register"/>
+			<mvc:mapping path="/mypick"/>
+			<mvc:mapping path="/settings/**"/>
+			<ref bean="logonCheckInterceptor"/>
 		</mvc:interceptor>
 	</mvc:interceptors>
-	 -->
 
 	<mvc:annotation-driven validator="validator" />
 	<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
