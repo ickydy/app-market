@@ -16,6 +16,7 @@ import lombok.ToString;
 public class ChatRoomComplex {
 	private ChatRoom chatRoom;
 	private Product product;
+	private Account buyerAccount;
 	private int unchecked;
 	private String recentMessage;
 }

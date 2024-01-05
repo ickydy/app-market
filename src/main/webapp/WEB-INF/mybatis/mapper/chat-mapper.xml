@@ -31,7 +31,14 @@
 	
 	<!-- 채팅방의 모든 채팅 가져오기 -->
 	<select id="findMessagesByRoomId" resultType="chatMessage">
-		select * from chat_messages where chat_room_id = #{chatRoomId} order by sent_at desc
+		select * from chat_messages where chat_room_id = #{chatRoomId} order by sent_at asc
+	</select>
+	
+	<!--  -->
+	<select id="findAfterMessagesByRoomId" resultType="chatMessage">
+		select * from chat_messages where chat_room_id = #{chatRoomId}
+		and id &gt; #{lastMessageId}
+		order by sent_at asc
 	</select>
 	
 	<!-- 안읽은 채팅 개수 확인 -->

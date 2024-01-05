@@ -22,4 +22,7 @@ public class ChatMessage {
 	private String content;
 	private Date sentAt;
 	private Date checkedAt;
+	
+	// 데이터베이스와 무관
+	private String strSentAt;
 }

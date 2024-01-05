@@ -19,6 +19,8 @@ public interface ChatDao {
 	public List<ChatRoom> findRoomByAccountId(String logonAccountId);
 
 	public List<ChatMessage> findMessagesByRoomId(String id);
+	
+	public List<ChatMessage> findAfterMessagesByRoomId(Map<String, Object> criteria);
 
 	public int countUncheckedMessages(Map<String, Object> criteria);
 	// chatRoomId, logonAccountId

@@ -82,7 +82,7 @@
 					<button class="btn btn-sm btn-dark" onclick="document.querySelector('#roomform').submit();">문의하기</button>
 				</div>
 			</div>
-			<form action="${contextPath }/chat/room" method="get" id="roomform" class="d-none">
+			<form action="${contextPath }/chat/link" method="get" id="roomform" class="d-none">
 				<input type="hidden" name="productId" value="${product.id }"/>
 			</form>
 		</div>
