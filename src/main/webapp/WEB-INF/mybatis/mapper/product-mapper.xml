@@ -63,4 +63,41 @@
 		) order by id desc
 	</select>
 	
+	<select id="findSomeByPaging" resultMap="productWithDetail">
+		select p.*, a.nickname, a.platform, a.access_token, a.profile_image_url, a.address, a.latitude, a.longitude, 
+					pi.id as image_id, pi.url, pi.path from
+			(
+		    	select rownum r, t.* from products t
+		    	<where>
+		    		<trim suffixOverrides="and">
+			    		<foreach collection="words" item="one">
+			    			title like '%' || #{one} || '%' and
+			    		</foreach>
+		    		</trim>
+		    	</where>
+		    	order by id desc
+		    ) p
+	    left join accounts a
+	    on p.account_id = a.id 
+	    left join product_images pi 
+	    on p.id = pi.product_id
+	    where r between #{start} and #{end}
+	    order by r asc
+	</select>
+	
+	<select id="countProducts" resultType="int">
+		select count(*) from products
+		<where>
+			<trim suffixOverrides="and">
+				<foreach collection="words" item="one">
+					title like '%'|| #{one} || '%' and
+				</foreach>
+			</trim>
+		</where>
+	</select>
+	
+	<update id="updateViewCnt">
+		update products set view_cnt = #{viewCnt} where id = #{id}
+	</update>
+
 </mapper>

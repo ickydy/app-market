@@ -6,7 +6,7 @@
 <div class="container my-3">
 	<div class="row gx-3">
 		<!-- 상품이미지 -->
-		<div class="col-lg-6 p-2">
+		<div class="col-lg-6 p-2 mt-5">
 			<div id="carouselExampleIndicators" class="carousel slide">
 				<div class="carousel-indicators">
 					<c:forEach begin="0" end="${product.images.size() - 1 }" var="i" varStatus="status">

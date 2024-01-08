@@ -2,8 +2,9 @@ package org.edupoll.market.service;
 
 import java.net.URI;
 
-import org.edupoll.market.model.KakaoUserInfo;
 import org.edupoll.market.model.KakaoOAuthToken;
+import org.edupoll.market.model.KakaoUserInfo;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
@@ -16,20 +17,22 @@ import com.google.gson.Gson;
 
 @Service
 public class KakaoAPIService {
+	
+	@Value("${kakao.client.id}")
+	String kakaoClientId;
+	@Value("${kakao.redirect.uri}")
+	String kakaoRedirectUri;
 
 	public KakaoOAuthToken getOAuthToken(String code) {
 		String uri = "https://kauth.kakao.com/oauth/token";
-//		String url = "http://192.168.4.123:8080";
-		String url = "http://211.194.30.210:8080";
-//		String url = "http://13.125.229.23:8080";
 
 		MultiValueMap<String, String> headers = new LinkedMultiValueMap<String, String>();
 		headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
 
 		MultiValueMap<String, String> body = new LinkedMultiValueMap<String, String>();
 		body.add("grant_type", "authorization_code");
-		body.add("client_id", "dc31fc273290226847f0433870262172");
-		body.add("redirect_uri", url + "/callback/kakao");
+		body.add("client_id", kakaoClientId);
+		body.add("redirect_uri", kakaoRedirectUri);
 		body.add("code", code);
 
 		RequestEntity<MultiValueMap<String, String>> request = new RequestEntity<>(body, headers, HttpMethod.POST,

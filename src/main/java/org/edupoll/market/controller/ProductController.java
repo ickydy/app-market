@@ -143,9 +143,9 @@ public class ProductController {
 				.ownerAccountId(logonAccount.getId()) //
 				.build();
 		pickDao.deleteByOwnderAndTarget(one);
-		
+
 		int updatedTotalPick = pickDao.countByTarget(targetProductId);
-		
+
 		Map<String, Object> response = new HashMap<>();
 		response.put("result", "success");
 		response.put("updatedTotalPick", updatedTotalPick);
@@ -159,6 +159,15 @@ public class ProductController {
 			@SessionAttribute(required = false) Account logonAccount, Model model) {
 		Product found = productDao.findById(productId);
 		int totalPick = pickDao.countByTarget(productId);
+		int viewCnt = found.getViewCnt() + 1;
+		
+		Map<String, Object> criteria = new HashMap<String, Object>();
+		criteria.put("viewCnt", viewCnt);
+		criteria.put("id", found.getId());
+		
+		productDao.updateViewCnt(criteria);
+		
+		found.setViewCnt(viewCnt);
 
 		if (logonAccount == null) {
 			model.addAttribute("picked", false);

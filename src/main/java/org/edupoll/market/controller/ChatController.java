@@ -106,7 +106,9 @@ public class ChatController {
 			criteria.put("chatRoomId", room.getId());
 			criteria.put("logonAccountId", logonAccount.getId());
 			int numOfUnchecked = chatDao.countUncheckedMessages(criteria);
+			
 			Product product = productDao.findById(room.getProductId());
+			
 			List<ChatMessage> messages = chatDao.findMessagesByRoomId(room.getId());
 			String recentMessage = null;
 			if (messages == null || messages.isEmpty()) {
@@ -115,7 +117,9 @@ public class ChatController {
 				int size = messages.size();
 				recentMessage = messages.get(size - 1).getContent();
 			}
+			
 			Account buyerAccount = accountDao.findById(room.getBuyerId());
+			
 			ChatRoomComplex complex = ChatRoomComplex.builder() //
 					.chatRoom(room) //
 					.product(product) //

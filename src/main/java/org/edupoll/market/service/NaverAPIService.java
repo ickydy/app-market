@@ -5,6 +5,7 @@ import java.net.URI;
 import org.edupoll.market.model.KakaoUserInfo;
 import org.edupoll.market.model.NaverOAuthToken;
 import org.edupoll.market.model.NaverUserInfo;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
@@ -17,13 +18,19 @@ import com.google.gson.Gson;
 
 @Service
 public class NaverAPIService {
+	
+	@Value("${naver.client.id}")
+	String naverClientId;
+	@Value("${naver.client.secret}")
+	String naverClientSecret;
+	
 	public NaverOAuthToken getOAuthToken(String code, String state) {
 		String uri = "https://nid.naver.com/oauth2.0/token";
 
 		MultiValueMap<String, String> body = new LinkedMultiValueMap<String, String>();
 		body.add("grant_type", "authorization_code");
-		body.add("client_id", "lU7GLew0nobFRhFpafKh");
-		body.add("client_secret", "T_mvX63AYI");
+		body.add("client_id", naverClientId);
+		body.add("client_secret", naverClientSecret);
 		body.add("code", code);
 		body.add("state", state);
 

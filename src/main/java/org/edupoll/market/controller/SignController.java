@@ -11,6 +11,7 @@ import org.edupoll.market.model.NaverUserInfo;
 import org.edupoll.market.repository.AccountDao;
 import org.edupoll.market.service.KakaoAPIService;
 import org.edupoll.market.service.NaverAPIService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +23,17 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SignController {
 
+	@Value("${kakao.client.id}")
+	String kakaoClientId;
+	@Value("${kakao.redirect.uri}")
+	String kakaoRedirectUri;
+	@Value("${naver.client.id}")
+	String naverClientId;
+	@Value("${naver.client.secret}")
+	String naverClientSecret;
+	@Value("${naver.redirect.uri}")
+	String naverRedirectUri;
+
 	private final ServletContext application;
 	private final AccountDao accountDao;
 	private final KakaoAPIService kakaoAPIService;
@@ -30,19 +42,17 @@ public class SignController {
 	@GetMapping("/signin")
 	public String showSignin(Model model) {
 
-//		String url = "http://192.168.4.123:8080";
-		String url = "http://211.194.30.210:8080";
-//		String url = "http://13.125.229.23:8080";
-
 		String kakaoLoginLink = "https://kauth.kakao.com/oauth/authorize?" + "client_id=${client_id}&response_type=code"
 				+ "&redirect_uri=${redirect_uri}";
 
-		kakaoLoginLink = kakaoLoginLink.replace("${client_id}", "dc31fc273290226847f0433870262172");
-		kakaoLoginLink = kakaoLoginLink.replace("${redirect_uri}", "${url}${contextPath}/callback/kakao");
-		kakaoLoginLink = kakaoLoginLink.replace("${url}", url);
+		kakaoLoginLink = kakaoLoginLink.replace("${client_id}", kakaoClientId);
+		kakaoLoginLink = kakaoLoginLink.replace("${redirect_uri}", kakaoRedirectUri);
 		kakaoLoginLink = kakaoLoginLink.replace("${contextPath}", application.getContextPath());
 
-		model.addAttribute("url", url);
+		String naverLoginLink = "https://nid.naver.com/oauth2.0/authorize?" + "response_type=code" + "&client_id="
+				+ naverClientId + "&state=state&redirect_uri=" + naverRedirectUri;
+
+		model.addAttribute("naverLoginLink", naverLoginLink);
 		model.addAttribute("kakaoLoginLink", kakaoLoginLink);
 
 		return "menu/signin";
