@@ -39,12 +39,11 @@
 		<property name="suffix" value=".jsp" />
 	</bean>
 	
-	<!-- multipart request handle config 
+	<!-- multipart request handle config -->
 	<bean class="org.springframework.web.multipart.commons.CommonsMultipartResolver" id="multipartResolver">
-		<property name="uploadTempDir" value="file:d:\\temp"/>
+		<property name="uploadTempDir" value="file:c:\\temp"/>
 	</bean>
-	-->
-
+	
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName"
 			value="oracle.jdbc.driver.OracleDriver" />

@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-<%@ include file="/WEB-INF/view/component/header.jspf" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ include file="/WEB-INF/view/component/header.jspf"%>
 <div class="container my-3">
 	<div class="row gx-3">
 		<!-- 상품이미지 -->
@@ -15,18 +15,16 @@
 				</div>
 				<div class="carousel-inner">
 					<c:forEach var="image" items="${product.images }" varStatus="status">
-						<div class="carousel-item ${status.first ? 'active' : '' }" style="height:400px; overflow:hidden;">
+						<div class="carousel-item ${status.first ? 'active' : '' }" style="height: 400px; overflow: hidden;">
 							<img src="${contextPath }${image.url}" class="d-block w-100 object-fit-center h-100 w-100 rounded-4" alt="${image.id }" id="${image.id }">
 						</div>
 					</c:forEach>
 				</div>
 				<button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-					<span class="carousel-control-prev-icon" aria-hidden="true"></span>
-					<span class="visually-hidden">Previous</span>
+					<span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="visually-hidden">Previous</span>
 				</button>
 				<button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-					<span class="carousel-control-next-icon" aria-hidden="true"></span>
-					<span class="visually-hidden">Next</span>
+					<span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="visually-hidden">Next</span>
 				</button>
 			</div>
 		</div>
@@ -34,26 +32,35 @@
 		<div class="col-lg-6 p-2">
 			<!-- 판매자 정보 -->
 			<div class="my-2 d-flex align-items-center">
-				<img src="${fn:startsWith(product.account.profileImageUrl, 'http') ? '' : contextPath }${product.account.profileImageUrl }"
-					width="42" height="42" class="rounded-circle"/>
+				<img src="${fn:startsWith(product.account.profileImageUrl, 'http') ? '' : contextPath }${product.account.profileImageUrl }" width="42" height="42" class="rounded-circle" />
 				<div class="h5 mb-0 p-2">${product.account.nickname }</div>
 				<small class="p-2">${product.account.address }</small>
 			</div>
 			<!-- 상품 타이틀 및 설명 -->
 			<div>
 				<h4>${product.title }</h4>
-				<p style="height:100px;">${product.description }</p>
+				<p class="p-2" style="height: 100px; white-space: pre;">${product.description }</p>
 			</div>
 			<!-- 거래희망장소 -->
 			<div>
 				<b>거래희망장소</b>
 			</div>
 			<div>
-				<div style="height:200px; overflow:hidden;" class="my-1 rounded-4">
-					<div id="staticMap" style="height:100%; width:100%;"></div>
-				</div>
+				<c:choose>
+					<c:when test="">
+						<div style="height: 200px; overflow: hidden;" class="my-1 rounded-4">
+							<div id="staticMap" style="height: 100%; width: 100%;"></div>
+						</div>
+					</c:when>
+					<c:otherwise>
+						<div style="height: 200px;" class="my-1 text-secondary p-2" >
+							<p class="mb-0">작성자가 거래희망장소를 설정하지 않았습니다.</p>
+							<p class="mb-0">아래 '문의하기'를 통해 거래희망장소를 확인해주세요.</p>
+						</div>
+					</c:otherwise>
+				</c:choose>
 			</div>
-			<div class="d-flex text gap-2" style="font-size:small;">
+			<div class="d-flex text gap-2" style="font-size: small;">
 				<span id="totalpick">관심 ${totalPick }</span> <span>조회 ${product.viewCnt }</span>
 			</div>
 			<!-- 가격 및 찜하기버튼 -->
@@ -61,29 +68,37 @@
 				<div class="p-2 border-end">
 					<c:choose>
 						<c:when test="${picked }">
-							<i class="bi bi-heart-fill" id="pick" style="cursor:pointer;"></i>
+							<i class="bi bi-heart-fill" id="pick" style="cursor: pointer;"></i>
 						</c:when>
 						<c:otherwise>
-							<i class="bi bi-heart" id="pick" style="cursor:pointer;"></i>
+							<i class="bi bi-heart" id="pick" style="cursor: pointer;"></i>
 						</c:otherwise>
 					</c:choose>
 				</div>
-				<div class="flex-grow-1 p-2">
+				<div class="flex-grow-1 p-2" id="price">
 					<c:choose>
 						<c:when test="${product.type eq 'sell' }">
-							<fmt:formatNumber pattern="#,###" value="${product.price }"/>원
+							<fmt:formatNumber pattern="#,###" value="${product.price }" />원
+						</c:when>
+						<c:when test="${product.type eq 'free' }">
+							나눔 <i class="bi bi-emoji-laughing"></i>
 						</c:when>
 						<c:otherwise>
-							나눔 <i class="bi bi-emoji-laughing"></i>
+							판매완료
 						</c:otherwise>
 					</c:choose>
 				</div>
+				<c:if test="${sessionScope.logonAccount.id eq product.account.id and product.type ne 'sold' }">
+					<div class="p-2">
+						<button class="btn btn-sm btn-secondary" id="soldBt" data-product-id="${product.id }">판매완료</button>
+					</div>
+				</c:if>
 				<div class="p-2">
 					<button class="btn btn-sm btn-dark" onclick="document.querySelector('#roomform').submit();">문의하기</button>
 				</div>
 			</div>
 			<form action="${contextPath }/chat/link" method="get" id="roomform" class="d-none">
-				<input type="hidden" name="productId" value="${product.id }"/>
+				<input type="hidden" name="productId" value="${product.id }" />
 			</form>
 		</div>
 	</div>
@@ -131,6 +146,30 @@
 		</script>
 	</c:otherwise>
 </c:choose>
+<c:if test="${sessionScope.logonAccount.id eq product.account.id and product.type ne 'sold' }">
+	<script>
+		document.querySelector("#soldBt").addEventListener("click", function(e) {
+			if (window.confirm("상품의 상태를 '판매완료'로 변경하시겠습니까?")){
+				fetch("/api/product/sold", {
+					method : "POST",
+					headers : {
+						"Content-type" : "application/x-www-form-urlencoded"
+					},
+					body : "productId=" + e.target.dataset.productId
+				}).then(function(response){
+					return response.json();
+				}).then(function(obj) {
+					if (obj.result) {
+						document.querySelector("#price").innerHTML="판매완료";		
+						e.target.parentElement.removeChild(e.target);
+					} else {
+						alert(obj.cause);
+					}
+				});
+			}
+		});
+	</script>
+</c:if>
 <script>
 	// 지도
 	var staticMapContainer = document.getElementById('staticMap'); // 이미지 지도를 표시할 div
@@ -146,4 +185,4 @@
 	// 이미지 지도를 생성합니다
 	var staticMap = new kakao.maps.StaticMap(staticMapContainer, staticMapOption);
 </script>
-<%@ include file="/WEB-INF/view/component/footer.jspf" %>
+<%@ include file="/WEB-INF/view/component/footer.jspf"%>

@@ -2,13 +2,9 @@ package org.edupoll.market.model;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
 
-@Setter
-@Getter
-@ToString
+@Data
 public class ProductRegistration {
 	private MultipartFile[] images;
 	private String title;

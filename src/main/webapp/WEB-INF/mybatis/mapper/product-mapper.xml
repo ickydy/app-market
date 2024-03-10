@@ -99,5 +99,9 @@
 	<update id="updateViewCnt">
 		update products set view_cnt = #{viewCnt} where id = #{id}
 	</update>
+	
+	<update id="updateType">
+		update products set type = #{type} where id = #{id}
+	</update>
 
 </mapper>

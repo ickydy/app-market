@@ -20,4 +20,6 @@ public interface ProductDao {
 	public int countProducts(Map<String, Object> criteria);
 
 	public int updateViewCnt(Map<String, Object> criteria);
+	
+	public int updateType(Product product);
 }

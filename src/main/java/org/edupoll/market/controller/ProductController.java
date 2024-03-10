@@ -16,6 +16,7 @@ import org.edupoll.market.model.ProductImage;
 import org.edupoll.market.model.ProductRegistration;
 import org.edupoll.market.repository.PickDao;
 import org.edupoll.market.repository.ProductDao;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -40,6 +41,8 @@ public class ProductController {
 
 	private final ProductDao productDao;
 	private final PickDao pickDao;
+	@Value("${upload.productImage.dir}")
+	String productImageDir;
 
 	@GetMapping("/register")
 	public String showProductRegister(Model model) {
@@ -71,10 +74,10 @@ public class ProductController {
 				String uuid = UUID.randomUUID().toString();
 				ProductImage productImage = ProductImage.builder() //
 						.url("/upload/productImage/" + product.getId() + "/" + uuid) //
-						.path("d:\\upload\\productImage\\" + product.getId() + "\\" + uuid) //
+						.path(productImageDir + product.getId() + "\\" + uuid) //
 						.productId(product.getId()) //
 						.build();
-				File dir = new File("d:\\upload\\productImage\\", String.valueOf(product.getId()));
+				File dir = new File(productImageDir, String.valueOf(product.getId()));
 				dir.mkdirs();
 				File target = new File(dir, uuid);
 				image.transferTo(target);
@@ -160,13 +163,13 @@ public class ProductController {
 		Product found = productDao.findById(productId);
 		int totalPick = pickDao.countByTarget(productId);
 		int viewCnt = found.getViewCnt() + 1;
-		
+
 		Map<String, Object> criteria = new HashMap<String, Object>();
 		criteria.put("viewCnt", viewCnt);
 		criteria.put("id", found.getId());
-		
+
 		productDao.updateViewCnt(criteria);
-		
+
 		found.setViewCnt(viewCnt);
 
 		if (logonAccount == null) {

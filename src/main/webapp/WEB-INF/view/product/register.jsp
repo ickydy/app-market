@@ -1,19 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ include file="/WEB-INF/view/component/header.jspf" %>
+<%@ include file="/WEB-INF/view/component/header.jspf"%>
 <div class="container mt-3">
 	<h4>내 물건 팔기</h4>
 	<div class="border-top">
 		<form action="${contextPath }/product/register" method="post" enctype="multipart/form-data" onsubmit="syncFileState();">
 			<div class="my-3">
-				<input type="file" id="image" name="images" style="display:none;" multiple accept="image/**"/>
+				<input type="file" id="image" name="images" style="display: none;" multiple accept="image/**" />
 				<div class="d-flex align-items-start">
-					<button type="button" class="btn btn-dark" style="--bs-btn-padding-y:2.0rem; --bs-btn-padding-x:2.0rem; --bs-btn-font-size:30px;"
-						onclick="document.querySelector('#image').click();">
-						<div style="width:40px; height:40px;">
+					<button type="button" class="btn btn-dark" style="--bs-btn-padding-y: 2.0rem; --bs-btn-padding-x: 2.0rem; --bs-btn-font-size: 30px;" onclick="document.querySelector('#image').click();">
+						<div style="width: 40px; height: 40px;">
 							<i class="bi bi-camera"></i>
 						</div>
 					</button>
-					<div class="d-flex" style="overflow-x:auto;" id="imageView">
+					<div class="d-flex" style="overflow-x: auto;" id="imageView">
 						<!-- javascript로 들어옴
 							<div class="mx-1 rounded position-relative" style="overflow:hidden; min-width:105.8px;">
 								<img alt="image" src="/resource/icon/kakao_login.png" width="105.8" height="105.8" class="object-fit-cover">
@@ -24,28 +23,22 @@
 				</div>
 			</div>
 			<div class="my-3">
-				<h6 style="font-weight:bold;">제목</h6>
-				<input type="text" class="form-control" id="title" name="title"/>
+				<h6 style="font-weight: bold;">제목</h6>
+				<input type="text" class="form-control" id="title" name="title" />
 			</div>
 			<div class="my-3">
-				<h6 style="font-weight:bold;">거래방식</h6>
+				<h6 style="font-weight: bold;">거래방식</h6>
 				<div>
-					<input type="radio" class="btn-check" name="type" value="sell" id="sell" autocomplete="off" checked>
-					<label class="btn btn-outline-dark" for="sell">판매하기</label>
-	
-					<input type="radio" class="btn-check" name="type" value="free" id="free" autocomplete="off">
-					<label class="btn btn-outline-dark" for="free">나눔하기</label>
+					<input type="radio" class="btn-check" name="type" value="sell" id="sell" autocomplete="off" checked> <label class="btn btn-outline-dark" for="sell">판매하기</label> <input type="radio" class="btn-check" name="type" value="free" id="free" autocomplete="off"> <label class="btn btn-outline-dark" for="free">나눔하기</label>
 				</div>
 				<div class="input-group my-2">
-					<span class="input-group-text">￦</span>
-					<input type="number" id="price" name="price" class="form-control" step="1000" min="1000" placeholder="가격을 입력해주세요 (천원단위)"/>
+					<span class="input-group-text">￦</span> <input type="number" id="price" name="price" class="form-control" step="1000" min="1000" placeholder="가격을 입력해주세요 (천원단위)" />
 				</div>
 			</div>
 			<div class="my-3">
-				<h6 style="font-weight:bold;">자세한 설명</h6>
+				<h6 style="font-weight: bold;">자세한 설명</h6>
 				<div>
-					<textarea class="form-control" id="description" name="description" rows="6" style="resize:none;"
-						placeholder="신뢰할 수 있는 거래를 위해 자세히 적어주세요"></textarea>
+					<textarea class="form-control" id="description" name="description" rows="6" style="resize: none;" placeholder="신뢰할 수 있는 거래를 위해 자세히 적어주세요"></textarea>
 				</div>
 				<div class="position-relative bottom-0 end-0">
 					<span id="length">0</span> / 1000
@@ -155,4 +148,4 @@
 	}
 	
 </script>
-<%@ include file="/WEB-INF/view/component/footer.jspf" %>
+<%@ include file="/WEB-INF/view/component/footer.jspf"%>
