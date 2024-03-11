@@ -47,13 +47,13 @@
 			</div>
 			<div>
 				<c:choose>
-					<c:when test="">
+					<c:when test="${product.account.address ne null }">
 						<div style="height: 200px; overflow: hidden;" class="my-1 rounded-4">
 							<div id="staticMap" style="height: 100%; width: 100%;"></div>
 						</div>
 					</c:when>
 					<c:otherwise>
-						<div style="height: 200px;" class="my-1 text-secondary p-2" >
+						<div style="height: 200px;" class="my-1 text-secondary p-2">
 							<p class="mb-0">작성자가 거래희망장소를 설정하지 않았습니다.</p>
 							<p class="mb-0">아래 '문의하기'를 통해 거래희망장소를 확인해주세요.</p>
 						</div>
@@ -170,19 +170,21 @@
 		});
 	</script>
 </c:if>
-<script>
-	// 지도
-	var staticMapContainer = document.getElementById('staticMap'); // 이미지 지도를 표시할 div
-	var staticMapOption = { 
-	        center: new kakao.maps.LatLng(${product.account.latitude}, ${product.account.longitude}), // 이미지 지도의 중심좌표
-	        level: 3, // 이미지 지도의 확대 레벨
-	        marker: { // 이미지 지도에 표시할 마커
-	    	    position: new kakao.maps.LatLng(${product.account.latitude}, ${product.account.longitude}), 
-	    	    text: '여기서 만나요!!' // text 옵션을 설정하면 마커 위에 텍스트를 함께 표시할 수 있습니다
-	    	}
-	    };
-	
-	// 이미지 지도를 생성합니다
-	var staticMap = new kakao.maps.StaticMap(staticMapContainer, staticMapOption);
-</script>
+<c:if test="${product.account.address ne null }">
+	<script>
+		// 지도
+		var staticMapContainer = document.getElementById('staticMap'); // 이미지 지도를 표시할 div
+		var staticMapOption = { 
+		        center: new kakao.maps.LatLng(${product.account.latitude}, ${product.account.longitude}), // 이미지 지도의 중심좌표
+		        level: 3, // 이미지 지도의 확대 레벨
+		        marker: { // 이미지 지도에 표시할 마커
+		    	    position: new kakao.maps.LatLng(${product.account.latitude}, ${product.account.longitude}), 
+		    	    text: '여기서 만나요!!' // text 옵션을 설정하면 마커 위에 텍스트를 함께 표시할 수 있습니다
+		    	}
+		    };
+		
+		// 이미지 지도를 생성합니다
+		var staticMap = new kakao.maps.StaticMap(staticMapContainer, staticMapOption);
+	</script>
+</c:if>
 <%@ include file="/WEB-INF/view/component/footer.jspf"%>
